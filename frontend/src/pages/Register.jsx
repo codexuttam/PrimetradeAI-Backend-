@@ -1,6 +1,7 @@
 import { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
+import { Shield, UserPlus } from 'lucide-react';
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -17,65 +18,76 @@ const Register = () => {
       await register(name, email, password, role);
       navigate('/dashboard');
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed');
+      setError(err.response?.data?.message || 'Enrollment failed');
     }
   };
 
   return (
     <div className="auth-page">
-      <form onSubmit={handleSubmit} className="glass auth-card">
-        <h1>Create Account</h1>
-        <p className="subtitle">Join PrimeTrade today</p>
+      <div className="glass auth-card animate-up" style={{ padding: '4rem 3rem', maxWidth: 450 }}>
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '2.5rem' }}>
+          <div className="logo-icon"><Shield size={32} /></div>
+        </div>
         
-        {error && <div className="error-msg">{error}</div>}
+        <h1 style={{ fontSize: '2.5rem', fontWeight: 900, textAlign: 'center', marginBottom: '0.5rem' }}>Personnel Enrollment</h1>
+        <p className="subtitle" style={{ marginBottom: '2.5rem' }}>Register new operator credentials</p>
         
-        <div className="form-group">
-          <label>Full Name</label>
-          <input 
-            type="text" 
-            placeholder="John Doe" 
-            value={name} 
-            onChange={(e) => setName(e.target.value)} 
-            required 
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Email</label>
-          <input 
-            type="email" 
-            placeholder="john@example.com" 
-            value={email} 
-            onChange={(e) => setEmail(e.target.value)} 
-            required 
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Password</label>
-          <input 
-            type="password" 
-            placeholder="••••••••" 
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)} 
-            required 
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Role</label>
-          <select value={role} onChange={(e) => setRole(e.target.value)} className="custom-select">
-            <option value="user">User</option>
-            <option value="admin">Admin</option>
-          </select>
-        </div>
-
-        <button type="submit" className="btn-primary">Register</button>
+        {error && <div className="error-msg" style={{ marginBottom: '1.5rem' }}>{error}</div>}
         
-        <p className="auth-footer">
-          Already have an account? <Link to="/login">Login</Link>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+          <div className="form-group-premium">
+            <label>Legal Name</label>
+            <input 
+              type="text" 
+              className="input-premium"
+              placeholder="Full Name" 
+              value={name} 
+              onChange={(e) => setName(e.target.value)} 
+              required 
+            />
+          </div>
+
+          <div className="form-group-premium">
+            <label>Operations Email</label>
+            <input 
+              type="email" 
+              className="input-premium"
+              placeholder="name@primetrade.ai" 
+              value={email} 
+              onChange={(e) => setEmail(e.target.value)} 
+              required 
+            />
+          </div>
+
+          <div className="form-group-premium">
+            <label>Encryption Key (Password)</label>
+            <input 
+              type="password" 
+              className="input-premium"
+              placeholder="••••••••" 
+              value={password} 
+              onChange={(e) => setPassword(e.target.value)} 
+              required 
+            />
+          </div>
+
+          <div className="form-group-premium">
+            <label>Access Level</label>
+            <select value={role} onChange={(e) => setRole(e.target.value)} className="input-premium">
+              <option value="user">Standard Agent</option>
+              <option value="admin">System Administrator</option>
+            </select>
+          </div>
+
+          <button type="submit" className="btn-submit-premium" style={{ marginTop: '1rem' }}>
+            Initialize Enrollment <UserPlus size={18} style={{ marginLeft: 8 }} />
+          </button>
+        </form>
+        
+        <p className="auth-footer" style={{ marginTop: '2.5rem' }}>
+          Already Registered? <Link to="/login" style={{ fontWeight: 800 }}>Primary Access</Link>
         </p>
-      </form>
+      </div>
     </div>
   );
 };

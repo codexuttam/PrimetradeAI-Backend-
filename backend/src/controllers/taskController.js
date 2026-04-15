@@ -13,7 +13,7 @@ const getTasks = asyncHandler(async (req, res) => {
 // @route   POST /api/v1/tasks
 // @access  Private
 const createTask = asyncHandler(async (req, res) => {
-  const { title, description, status } = req.body;
+  const { title, description, status, priority, category } = req.body;
 
   if (!title || !description) {
     res.status(400);
@@ -25,6 +25,8 @@ const createTask = asyncHandler(async (req, res) => {
     title,
     description,
     status,
+    priority,
+    category,
   });
 
   const createdTask = await task.save();
@@ -35,7 +37,7 @@ const createTask = asyncHandler(async (req, res) => {
 // @route   PUT /api/v1/tasks/:id
 // @access  Private
 const updateTask = asyncHandler(async (req, res) => {
-  const { title, description, status } = req.body;
+  const { title, description, status, priority, category } = req.body;
 
   const task = await Task.findById(req.params.id);
 
@@ -48,6 +50,8 @@ const updateTask = asyncHandler(async (req, res) => {
     task.title = title || task.title;
     task.description = description || task.description;
     task.status = status || task.status;
+    task.priority = priority || task.priority;
+    task.category = category || task.category;
 
     const updatedTask = await task.save();
     res.json(updatedTask);
